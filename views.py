@@ -4,6 +4,7 @@ from forms import AddTaskForm, RegisterForm, LoginForm
 from flask_sqlalchemy import SQLAlchemy
 
 # config
+
 app = Flask(__name__)
 app.config.from_object('_config')
 db = SQLAlchemy(app)
@@ -11,6 +12,7 @@ db = SQLAlchemy(app)
 from models import Task, User
 
 # helper functions
+
 def login_required(test):
 	@wraps(test)
 	def wrap(*args, **kwargs):
@@ -22,6 +24,7 @@ def login_required(test):
 	return wrap
 
 # route handlers
+
 @app.route('/logout/')
 def logout():
 	session.pop('logged_in', None)
@@ -30,15 +33,20 @@ def logout():
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
+	error = None
+	form = LoginForm(request.form)
 	if request.method == 'POST':
-		if request.form['username'] != app.config['USERNAME'] or request.form['password'] != app.config['PASSWORD']:
-			error = "Invalid credentials. Please try again."
-			return render_template('login.html', error=error)
+		if form.validate_on_submit():
+			user = User.query.filter_by(name=request.form['name']).first()
+			if user is not None and user.password == request.form['password']:
+				session['logged_in'] = True
+				flash('Welcome')
+				return redirect(url_for('tasks'))
 		else:
-			session['logged_in'] = True
-			flash("Welcome!")
-			return redirect(url_for('tasks'))
-	return render_template('login.html')
+			error = 'Invalid username or password'
+	else:
+		error = 'Both fields are required'
+	return render_template('login.html', form=form, error=error)
 
 @app.route('/tasks/')
 @login_required
@@ -48,6 +56,7 @@ def tasks():
 	return render_template('tasks.html', form=AddTaskForm(request.form), open_tasks=open_tasks, closed_tasks=closed_tasks)
 
 # add new tasks
+
 @app.route('/add/', methods=['POST'])
 @login_required
 def new_task():
@@ -61,6 +70,7 @@ def new_task():
 	return redirect(url_for('tasks'))
 
 # mark tasks as complete
+
 @app.route('/complete/<int:task_id>/')
 @login_required
 def complete(task_id):
@@ -71,6 +81,7 @@ def complete(task_id):
 	return redirect(url_for('tasks'))
 
 # delete tasks
+
 @app.route('/delete/<int:task_id>/')
 @login_required
 def delete_entry(task_id):
