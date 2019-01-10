@@ -114,9 +114,7 @@ def new_task():
                 form.name.data,
                 form.due_date.data,
                 form.priority.data,
-                datetime.datetime.utcnow(),
-                '1',
-                session['user_id']
+                '1'
             )
             db.session.add(new_task)
             db.session.commit()
