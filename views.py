@@ -6,7 +6,6 @@
 #################
 
 from forms import AddTaskForm, RegisterForm, LoginForm
-
 import datetime
 from functools import wraps
 from flask import Flask, flash, redirect, render_template, \
@@ -114,7 +113,9 @@ def new_task():
                 form.name.data,
                 form.due_date.data,
                 form.priority.data,
-                '1'
+                datetime.datetime.utcnow(),
+                '1',
+                session['user_id']
             )
             db.session.add(new_task)
             db.session.commit()
