@@ -143,3 +143,9 @@ label {
   text-decoration:none;
   position:relative;
 }
+
+.error{
+	color: red;
+	font-size: .8em;
+	background-color: #FFFFFF; 
+}
