@@ -37,5 +37,31 @@ class AllTests(unittest.TestCase):
 			t.name
 		assert t.name == 'michael'
 
+	def test_form_is_present(self):
+		response = self.app.get('/')
+		self.assertEqual(response.status_code, 200)
+		self.assertIn(b'Please login to access your task list', response.data)
+
+	def login(self, name, password):
+		return self.app.post('/', data=dict(name=name, password=password), follow_redirects=True)
+
+	def test_users_cannot_login_unless_registered(self):
+		response = self.login('foo', 'bar')
+		self.assertIn(b'Invalid username or password.', response.data)
+
+	def register(self, name, email, password, confirm):
+		return self.app.post('register/', data=dict(name=name, email=email, password=password, confirm=confirm),
+			follow_redirects=True)
+
+	def test_users_can_login(self):
+		self.register('Michael', 'michael@realpython.com', 'python', 'python')
+		response = self.login('Michael', 'python')
+		self.assertIn(b'Welcome!', response.data)
+
+	def test_form_is_present_on_register_page(self):
+		response = self.app.get('register/')
+		self.assertEqual(response.status_code, 200)
+		self.assertIn(b'Please register to access the task list.', response.data)
+
 if __name__ == '__main__':
 	unittest.main()
