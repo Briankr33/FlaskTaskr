@@ -1,3 +1,4 @@
 
 404 error at 31-01-2019 15:34:23: http://localhost:5000/does_not_exist 
 500 error at 31-01-2019 15:41:19: http://localhost:5000/ 
+404 error at 04-02-2019 14:05:58: http://localhost:5000/favicon.ico 
