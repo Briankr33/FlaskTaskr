@@ -2,3 +2,8 @@
 404 error at 31-01-2019 15:34:23: http://localhost:5000/does_not_exist 
 500 error at 31-01-2019 15:41:19: http://localhost:5000/ 
 404 error at 04-02-2019 14:05:58: http://localhost:5000/favicon.ico 
+404 error at 05-02-2019 10:40:24: http://localhost/this-route-does-not-exist/ 
+404 error at 05-02-2019 10:41:22: http://localhost/this-route-does-not-exist/ 
+404 error at 05-02-2019 10:43:50: http://localhost/this-route-does-not-exist/ 
+404 error at 05-02-2019 10:54:05: http://localhost/this-route-does-not-exist/ 
+404 error at 05-02-2019 11:49:54: http://localhost/this-route-does-not-exist/ 
