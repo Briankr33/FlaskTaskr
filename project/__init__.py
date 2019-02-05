@@ -4,7 +4,7 @@ from flask_bcrypt import Bcrypt
 import datetime
 
 app = Flask(__name__)
-app.config.from_pyfile('_config.py')
+#app.config.from_pyfile('_config.py')
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
